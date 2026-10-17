@@ -1,0 +1,212 @@
+#include "MatrizLed.h"
+#include "Otto.h"
+
+const byte Face_Sorriso[] PROGMEM = {
+  B01111000, 
+  B01101100, 
+  B01100110, 
+  B01100110,
+  B01100110, 
+  B01100110, 
+  B01101100, 
+  B01111000
+};
+
+const byte Face_Triste[] PROGMEM = {
+  B01100000,
+  B00011000,
+  B00001100,
+  B00000100,
+  B00000100,
+  B00001100,
+  B00011000,
+  B01100000
+};
+
+const byte Face_Vergonha[] PROGMEM = {
+  B00001000,
+  B00011000,
+  B00010000,
+  B00100000,
+  B00100000,
+  B00010000,
+  B00011000,
+  B00001000
+};
+
+const byte Face_Surpreso[] PROGMEM = {
+  B00111100,
+  B01111110,
+  B11111111,
+  B11111111,
+  B11111111,
+  B11111111,
+  B01111110,
+  B00111100
+};
+
+const byte Face_Cansado[] PROGMEM = {
+  B00001000,
+  B00001000,
+  B00001000,
+  B00001000,
+  B00001000,
+  B00001000,
+  B00001000,
+  B00001000
+};
+
+const byte Face_Sono0[] PROGMEM = {
+  B00001000,
+  B00001000,
+  B00001000,
+  B00001000,
+  B00001000,
+  B00001000,
+  B00001000,
+  B00001000
+};
+
+const byte Face_Sono1[] PROGMEM = {
+  B00000000,
+  B00000000,
+  B00011000,
+  B00100100,
+  B00100100,
+  B00011000,
+  B00000000,
+  B00000000
+};
+
+const byte Face_Sono2[] PROGMEM = {
+  B00111100,
+  B01000010,
+  B11000011,
+  B10000001,
+  B10000001,
+  B11000011,
+  B01000010,
+  B00111100
+};
+
+const byte Face_Neutro[] PROGMEM = {
+  B00001000,
+  B00001000,
+  B00001000,
+  B00001000,
+  B00001000,
+  B00001000,
+  B00001000,
+  B00001000
+};
+
+const byte Face_Vazio[] PROGMEM = {
+  B00000000,
+  B00000000,
+  B00000000,
+  B00000000,
+  B00000000,
+  B00000000,
+  B00000000,
+  B00000000
+};
+
+const byte Face_BocaAbre1[] PROGMEM = {
+  B00001000,
+  B00010100,
+  B00010100,
+  B00010100,
+  B00010100,
+  B00010100,
+  B00010100,
+  B00001000
+};
+
+const byte Face_BocaAbre2[] PROGMEM = {
+  B00001000,
+  B00010100,
+  B00100010,
+  B00100010,
+  B00100010,
+  B00100010,
+  B00010100,
+  B00001000
+};
+
+const byte Face_Medo[] PROGMEM = {
+  B00001000,
+  B00000100,
+  B00001000,
+  B00000100,
+  B00001000,
+  B00000100,
+  B00001000,
+  B00000100
+};
+
+const byte Face_Raiva[] PROGMEM = {
+  B01111000,
+  B10010100,
+  B10010010,
+  B01010010,
+  B01010010,
+  B10010010,
+  B10010100,
+  B01111000
+};
+
+const byte Face_Barulho[] PROGMEM = {
+  B00111100,
+  B00111110,
+  B00111111,
+  B00111111,
+  B00111111,
+  B00111111,
+  B00111110,
+  B00111100
+};
+
+const byte Face_Enjoado[] PROGMEM = {
+  B00011000,
+  B00011000,
+  B00011000,
+  B10011001,
+  B10011001,
+  B11111111,
+  B11111111,
+  B00000000
+};
+
+const byte Face_Heart[] PROGMEM = {
+  B00000000,
+  B00100010,
+  B01010101,
+  B01001001,
+  B01000001,
+  B00100010,
+  B00010100,
+  B00001000
+};
+
+const byte DFPlayer_Erro[] PROGMEM = {
+  B00000000, 
+  B11011000, 
+  B11011000, 
+  B11111111,
+  B00000000, 
+  B01111110, 
+  B11000011, 
+  B11111111
+};
+
+void configurarMatrizLed(){
+    ledControl.shutdown(0, false);
+    ledControl.setIntensity(0, 20);
+}
+
+void mostrar(const byte* Face){
+  for (int i = 0; i < 8; i++) {
+    byte faceAMostrar = pgm_read_byte(&Face[i]);
+    ledControl.setRow(0, i, faceAMostrar);
+  }
+}
