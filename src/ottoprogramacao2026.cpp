@@ -1,40 +1,41 @@
-
 #include "Otto.h"
-      
+#include "MatrizLed.h"
+#include "DFPlayer.h"
+#include "Ir.h"
+#include "RFID.h"
+#include "Teclado.h"
+#include <Arduino.h>
+
 void setup(){
-
-  Serial1.begin(9600); 
-  Serial.begin(9600); 
-
-  configurarIr();
-  configurarDFPlayer();
-  configurarMatrizLed();
-  configurarRFID();    
   
-  /*saudação do OTTO aqui*/
+  Serial.begin(9600);
+  
+  configurarRFID();
+  //configurarIr();
+  //configurarMatrizLed();
+  //configurarServos();
+   
+   
 }
 
-void loop (){
-
-  verificarDFPlayer();
+void loop(){
+  //verificarDFPlayer();
   verificarRFID();
 
-  if(statusLeituraCartaoRFIDLiberado() == true){
+  //if(statusLeituraCartaoRFIDLiberado() == true){
     LeituraCartaoRFID();
-  }
+  //}
+
   
-  if(statusDancaLiberado() == true){
+  /*
+    if(statusDancaLiberado() == true){
 
-  }
+    }
 
-  if(statusLeituraTecladoNumericoLiberado() == true){
-    leituraTecladoNumerico();
-  }
+    if(statusLeituraTecladoNumericoLiberado() == true){
+      leituraTecladoNumerico();
+    }
 
-  leituraControleRemoto();
-
-
+    leituraControleRemoto();
+  */
 }
-
-
-

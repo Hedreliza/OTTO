@@ -1,29 +1,16 @@
-#ifndef RFID_h
-#define RFID_h
+#ifndef RFID_H
+#define RFID_H
 
-#include "Otto.h"
+#include <Arduino.h>
 
-#define PIN_RFID_RST        48 
-#define PIN_RFID_SS         53 
-
-extern MFRC522 mfrc522; 
-
-typedef struct {
-    byte uid[7]; 
-    int numeroAudio;
-} CARTAO;
-
-
-inline const CARTAO listaCartao[] PROGMEM = {
-    {"", }, 
-    
+struct CARTAO {
+    byte uid[4];
+    uint16_t numeroAudio;
 };
-          
-const int TOTAL_CARTOES = sizeof(listaCartao) / sizeof(CARTAO);
 
 void configurarRFID();
+void verificarRFID();
 void LeituraCartaoRFID();
 int  buscarAudioCartao();
-void verificarRFID();
 
 #endif

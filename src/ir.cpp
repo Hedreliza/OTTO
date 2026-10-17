@@ -1,47 +1,39 @@
 #include "Ir.h"
 #include "Otto.h"
-
-const byte RECV_PIN = PIN_IR_SIGNAL;    
+#include "DFPlayer.h"
+#include <IRremote.hpp>     // ← v4 usa .hpp
 
 void configurarIr(){
-   IrReceiver.begin(PIN_IR_SIGNAL, ENABLE_LED_FEEDBACK);
+  IrReceiver.begin(PIN_IR_SIGNAL, ENABLE_LED_FEEDBACK);
+  
 }
 
 void leituraControleRemoto(){
-  
-  if (IrReceiver.decode()){   
-    uint16_t codigoHexBotao = IrReceiver.decodedIRData.command;
-    //Serial.println(IrReceiver.decodedIRData.command, HEX);
+    if (IrReceiver.decode()){
+        uint32_t codigoHexBotao = IrReceiver.decodedIRData.decodedRawData;
 
-    switch(codigoHexBotao){
-      case CONTROLEREMOTO_BOTAOPOWER:       
-        /*desliga o OTTO*/
-        /*tchau do otto*/
-        /*posição de descanso*/
-        /*myDFPlayer.play(AUDIO_DESLIGA)*/
+        switch(codigoHexBotao){
+            case CONTROLEREMOTO_BOTAOPOWER:
+                // desliga o OTTO
+            break;
 
-      break;
-      case CONTROLEREMOTO_BOTAO1:
-        tocarAudio(AUDIO_APLAUSO);
-       
-      break;
-      case CONTROLEREMOTO_BOTAO3:
-        tocarAudio(AUDIO_ERROU);
-           
-      break;
-      case CONTROLEREMOTO_BOTAO5:
-        tocarAudio(AUDIO_DANCA);
-      
-      break;
-      case CONTROLEREMOTO_BOTAOVERDE:
+            case CONTROLEREMOTO_BOTAO1:
+                tocarAudio(AUDIO_APLAUSO);
+            break;
 
-        otto.Teclado = (otto.Teclado == 30)? 34:30;
-        
-      break;
+            case CONTROLEREMOTO_BOTAO3:
+                tocarAudio(AUDIO_ERROU);
+            break;
+
+            case CONTROLEREMOTO_BOTAO5:
+                tocarAudio(AUDIO_DANCA);
+            break;
+
+            case CONTROLEREMOTO_BOTAOVERDE:
+                otto.Teclado = (otto.Teclado == 30) ? 34 : 30;
+            break;
+        }
+
+        IrReceiver.resume();
     }
-
-    IrReceiver.resume(); 
-  }
 }
-
-
