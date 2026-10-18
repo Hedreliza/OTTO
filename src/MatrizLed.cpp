@@ -200,8 +200,8 @@ const byte DFPlayer_Erro[] PROGMEM = {
 };
 
 void configurarMatrizLed(){
-    ledControl.shutdown(0, false);
-    ledControl.setIntensity(0, 20);
+  ledControl.shutdown(0, false);
+  ledControl.setIntensity(0, 20);
 }
 
 void mostrar(const byte* Face){

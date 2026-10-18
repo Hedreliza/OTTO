@@ -10,16 +10,24 @@
 #include <Servo.h>
 #include <Keypad.h>
 
-// ================== PINOS ==================
-#define PIN_DFPlayer_BUSY    2
+// ==================== PINO DO IR ==================
 #define PIN_IR_SIGNAL        22
+// ==================== PINOS DOS SERVOS ==================
 #define PIN_ARM_RIGHT        24
 #define PIN_ARM_LEFT         25
 #define PIN_FOOT_RIGHT       26
 #define PIN_FOOT_LEFT        27
+
+// ====================== PINOS DO RFID ==================
 #define PIN_RFID_SS          53
 #define PIN_RFID_RST         49
 
+// ===================== PINOS DO DFPlayer ==================
+#define PIN_DFPlayer_BUSY    2
+#define PIN_DFPLAYER_RX      19
+#define PIN_DFPLAYER_TX      18
+
+// ==================== PINOS DO TECLADO ==================
 #define PIN_TECLADO_LINHA1   38
 #define PIN_TECLADO_LINHA2   39
 #define PIN_TECLADO_COLUNA1  40
@@ -28,11 +36,7 @@
 #define PIN_TECLADO_COLUNA4  43
 #define PIN_TECLADO_COLUNA5  44
 
-// Pinos do SoftwareSerial do DFPlayer (RX, TX) - ajuste se preciso
-#define PIN_DFPLAYER_RX      19
-#define PIN_DFPLAYER_TX      18
-
-// Pinos do LedControl (DIN, CLK, CS, qtde)
+// ================== PINOS Da MATRIZ DE LED ==================
 #define PIN_LED_DIN          46
 #define PIN_LED_CLK          47
 #define PIN_LED_CS           48
@@ -54,24 +58,20 @@
 // ================== ESTRUTURA OTTO ==================
 struct OTTOStruct {
     int DfPlayer;
+    int RFID;
     int BracoDireito;
     int BracoEsquerdo;
     int PernaDireita;
     int PernaEsquerda;
     int Teclado;
-    int RFID;
+    
 };
 
 // ================== GLOBAIS (SÓ DECLARAÇÃO) ==================
 extern OTTOStruct otto;
-extern SoftwareSerial dfPlayerSerial;
 extern DFRobotDFPlayerMini myDFPlayer;
 extern LedControl ledControl;
 extern MFRC522 mfrc522;
-extern Servo bracoDireito;
-extern Servo bracoEsquerdo;
-extern Servo peEsquerdo;
-extern Servo peDireito;
 
 // ================== PROTÓTIPOS ==================
 void configurarServos();

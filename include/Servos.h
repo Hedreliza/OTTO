@@ -1,21 +1,35 @@
-#ifndef SERVOS_h
-#define SERVOS_h
-#include <Servo.h> 
-#define PIN_FOOT_LEFT       18 
-#define PIN_FOOT_RIGHT      19 
-#define PIN_ARM_LEFT        20 
-#define PIN_ARM_RIGHT       21
+#ifndef SERVOS_H
+#define SERVOS_H
 
-extern Servo bracoDireito;
-extern Servo bracoEsquerdo;
-extern Servo peEsquerdo;
-extern Servo peDireito;
+#include <Arduino.h>
+#include <Servo.h>
+#include "Otto.h"
 
-void desconectarPinoDeTodosServos();
-void configurarServos();
-bool moverPeEsquerdo(int posicaoFinal, int passo);
-bool moverPeDireito(int posicaoFinal, int passo);
-bool moverBracoDireito(int posicaoFinal, int passo);
-bool moverBracoEsquerdo(int posicaoFinal, int passo);
+class ServoOtto {
+  private:
+    Servo objetoServo;
+    int pino;
+    int anguloAtual;
+    int anguloDestino;
+    int posicaoInicial; 
+    int intervaloPasso;
+    unsigned long tempoUltimoPasso;
+    bool servoAtivo;
+
+  public:
+   
+    ServoOtto(int pinoServo, int anguloInicial);
+    void iniciar();
+    void moverPara(int novoDestino, int novaVelocidade);
+    void voltarParaOInicio(int novaVelocidade);
+    bool pronto();
+    void atualizar();
+    void desligar();
+};
+
+extern ServoOtto peEsquerdo;
+extern ServoOtto peDireito;
+extern ServoOtto bracoEsquerdo;
+extern ServoOtto bracoDireito;
 
 #endif
