@@ -40,6 +40,11 @@ void loop(){
   verificarDFPlayer();
   verificarRFID();
 
+  bracoDireito.atualizar();
+  bracoEsquerdo.atualizar();
+  peDireito.atualizar();
+  peEsquerdo.atualizar();
+  
   gerenciarAceno();
   gerenciarAlegria();
   gerenciarDesanimo();
