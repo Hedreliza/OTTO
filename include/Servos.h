@@ -12,19 +12,19 @@ class ServoOtto {
     int anguloAtual;
     int anguloDestino;
     int posicaoInicial; 
-    int intervaloPasso;
-    unsigned long tempoUltimoPasso;
+    int miliSegundosPorGrau;
+    unsigned long tempoAnterior; 
     bool servoAtivo;
 
   public:
-   
     ServoOtto(int pinoServo, int anguloInicial);
     void iniciar();
+    bool isAtivo();
     void moverPara(int novoDestino, int novaVelocidade);
     void voltarParaOInicio(int novaVelocidade);
+    void desanexar();
     bool pronto();
-    void atualizar();
-    void desligar();
+    void atualizarUmPasso();
 };
 
 extern ServoOtto peEsquerdo;

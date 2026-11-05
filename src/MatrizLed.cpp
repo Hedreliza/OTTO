@@ -13,14 +13,14 @@ const byte Face_Sorriso[] PROGMEM = {
 };
 
 const byte Face_Triste[] PROGMEM = {
+  B00011100,
+  B00110000,
   B01100000,
-  B00011000,
-  B00001100,
-  B00000100,
-  B00000100,
-  B00001100,
-  B00011000,
-  B01100000
+  B01100000,
+  B01100000,
+  B01100000,
+  B00110000,
+  B00011100
 };
 
 const byte Face_Vergonha[] PROGMEM = {
@@ -205,8 +205,8 @@ void configurarMatrizLed(){
 }
 
 void mostrar(const byte* Face){
-  for (int i = 0; i < 8; i++) {
-    byte faceAMostrar = pgm_read_byte(&Face[i]);
-    ledControl.setRow(0, i, faceAMostrar);
+  for (int linha = 0; linha < 8; linha++) {
+    byte bitsDaLinha = pgm_read_byte(&Face[linha]);
+    ledControl.setRow(0, linha, bitsDaLinha);
   }
 }

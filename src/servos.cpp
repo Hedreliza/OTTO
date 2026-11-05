@@ -5,71 +5,93 @@ ServoOtto::ServoOtto(int pinoServo, int anguloInicial) {
     posicaoInicial = anguloInicial; 
     anguloAtual    = anguloInicial;
     anguloDestino  = anguloInicial;
-    intervaloPasso = 5;
-    tempoUltimoPasso = 0;
+    miliSegundosPorGrau = 5; 
+    tempoAnterior = 0;
     servoAtivo = false;
 }
 
-void ServoOtto::iniciar() {
+ServoOtto peEsquerdo(PIN_PE_ESQUERDO,90);
+ServoOtto peDireito(PIN_PE_DIREITO,90);
+ServoOtto bracoEsquerdo(PIN_BRACO_ESQUERDO,135);
+ServoOtto bracoDireito(PIN_BRACO_DIREITO,45);
+
+void ServoOtto::iniciar(){
+    anguloAtual   = posicaoInicial;
+    anguloDestino = posicaoInicial;
+    servoAtivo    = false;
+
     objetoServo.attach(pino);
-    objetoServo.write(anguloAtual);
-    delay(200);
+    objetoServo.write(posicaoInicial);
+    delay(500);
     objetoServo.detach();
 }
 
+bool ServoOtto::isAtivo(){
+    return servoAtivo;
+}
+
 void ServoOtto::moverPara(int novoDestino, int novaVelocidade) {
+    if(!objetoServo.attached()){
+        objetoServo.attach(pino); 
+    }
+
     anguloDestino = novoDestino;
-    intervaloPasso = novaVelocidade;
+    miliSegundosPorGrau = novaVelocidade;
+    tempoAnterior = millis();
 }
 
 void ServoOtto::voltarParaOInicio(int novaVelocidade) {
     anguloDestino = posicaoInicial; 
-    intervaloPasso = novaVelocidade;
+    miliSegundosPorGrau = novaVelocidade;
 }
 
 bool ServoOtto::pronto() {
     return (anguloAtual == anguloDestino) && (!servoAtivo);
 }
 
-void ServoOtto::atualizar() {
-    if (anguloAtual == anguloDestino) {
-        if (servoAtivo) {
-            objetoServo.detach(); 
-            servoAtivo = false;
-        }
-        return;
+void ServoOtto::desanexar() {
+    objetoServo.detach();
+    servoAtivo = false;
+}
+
+void ServoOtto::atualizarUmPasso(){
+
+    static unsigned long ultimoLog = 0;
+    if (millis() - ultimoLog >= 500) {
+        ultimoLog = millis();
+        Serial.print(F("=============")); 
+        Serial.print(F("   SERVOS  "));
+        Serial.print(F("=============")); 
+        Serial.print(F("atual: atual=")); Serial.print(anguloAtual);
+        Serial.print(F(" destino="));     Serial.print(anguloDestino);
+        Serial.print(F(" ativo="));       Serial.print(servoAtivo);
+        Serial.print(F(" attachd="));     Serial.println(objetoServo.attached());
     }
 
-    if (!servoAtivo) {
+    if (anguloAtual == anguloDestino){  
+       servoAtivo = false;
+        return;  
+    }
+
+    if (!servoAtivo) { 
+        if (!objetoServo.attached()) { 
+            objetoServo.attach(pino);
+        }
         objetoServo.write(anguloAtual); 
-        objetoServo.attach(pino);
         servoAtivo = true;
-        tempoUltimoPasso = millis();
+        tempoAnterior = millis(); 
         return;
     }
 
-    if (millis() - tempoUltimoPasso >= (unsigned long)intervaloPasso) {
-        tempoUltimoPasso = millis();
-
-        if (anguloAtual < anguloDestino) {
+    if (millis() - tempoAnterior >= (unsigned long)miliSegundosPorGrau) {
+        tempoAnterior = millis(); 
+        
+        if (anguloAtual < anguloDestino){
             anguloAtual++;
-        } else {
+        }else {
             anguloAtual--;
-        }
+        }         
+
         objetoServo.write(anguloAtual);
-    }
+    }   
 }
-
-void ServoOtto::desligar() {
-    anguloDestino = anguloAtual; 
-    if (servoAtivo) {
-        objetoServo.detach();
-        servoAtivo = false;
-    }
-}
-
-// --- Criação única dos objetos ---
-ServoOtto peEsquerdo(PIN_FOOT_LEFT, 90);
-ServoOtto peDireito(PIN_FOOT_RIGHT, 90);
-ServoOtto bracoEsquerdo(PIN_ARM_LEFT, 45);
-ServoOtto bracoDireito(PIN_ARM_RIGHT, 135);

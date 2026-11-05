@@ -13,10 +13,10 @@
 // ==================== PINO DO IR ==================
 #define PIN_IR_SIGNAL        22
 // ==================== PINOS DOS SERVOS ==================
-#define PIN_ARM_RIGHT        24
-#define PIN_ARM_LEFT         25
-#define PIN_FOOT_RIGHT       26
-#define PIN_FOOT_LEFT        27
+#define PIN_BRACO_ESQUERDO         23
+#define PIN_PE_ESQUERDO       29
+#define PIN_BRACO_DIREITO       24
+#define PIN_PE_DIREITO       26
 
 // ====================== PINOS DO RFID ==================
 #define PIN_RFID_SS          53
@@ -38,22 +38,31 @@
 
 // ================== PINOS Da MATRIZ DE LED ==================
 #define PIN_LED_DIN          46
-#define PIN_LED_CLK          47
-#define PIN_LED_CS           48
+#define PIN_LED_CS           47
+#define PIN_LED_CLK          48
 #define NBR_MTX              1
 
 // ================== ÁUDIOS ==================
-#define AUDIO_APLAUSO   1
-#define AUDIO_ERROU     2
-#define AUDIO_DANCA     3
-#define AUDIO_DESLIGA   4
+#define AUDIO_SAUDACAO    1
+#define AUDIO_DESPEDIDA   2
+#define AUDIO_APLAUSO     3
+#define AUDIO_ERROU       4
+#define AUDIO_DANCA       5
 
 // ================== CONTROLE REMOTO ==================
-#define CONTROLEREMOTO_BOTAOPOWER  0xA32AB931
-#define CONTROLEREMOTO_BOTAO1      0x371A3C86  // Positivo
-#define CONTROLEREMOTO_BOTAO3      0x143226DB  // Negativo
-#define CONTROLEREMOTO_BOTAO5      0xE0984BB6  // Dança
-#define CONTROLEREMOTO_BOTAOVERDE  0xFFE21D    // Desativa e Ativa o Teclado Numérico
+#define CONTROLEREMOTO_BOTAOPOWER  0xBA45FF00
+#define CONTROLEREMOTO_BOTAO1      0xF30CFF00  // Positivo
+#define CONTROLEREMOTO_BOTAO3      0xA15EFF00  // Negativo
+#define CONTROLEREMOTO_BOTAO5      0xE31CFF00  // Dança
+#define CONTROLEREMOTO_BOTAOVERDE  0xB847FF00   // Desativa e Ativa o Teclado Numérico
+
+// ================== CODIGOS DE STATUS ==================
+#define RFID_OK                 10
+#define RFID_ERRO               11
+#define DFPLAYER_ERRO           23
+#define TECLADO_HABILITADO      30
+#define TECLADO_DESABILITADO    34
+#define OTTO_LIGADO             70
 
 // ================== ESTRUTURA OTTO ==================
 struct OTTOStruct {
@@ -63,8 +72,9 @@ struct OTTOStruct {
     int BracoEsquerdo;
     int PernaDireita;
     int PernaEsquerda;
-    int Teclado;
-    
+    int Teclado; 
+    int dancando;
+    int ligado;
 };
 
 // ================== GLOBAIS (SÓ DECLARAÇÃO) ==================
@@ -88,11 +98,6 @@ void leituraControleRemoto();
 void leituraTecladoNumerico();
 void LeituraCartaoRFID();
 
-bool moverPeDireito(int posicaoFinal, int passo);
-bool moverPeEsquerdo(int posicaoFinal, int passo);
-bool moverBracoEsquerdo(int posicaoFinal, int passo);
-bool moverBracoDireito(int posicaoFinal, int passo);
-void desconectarPinoDeTodosServos();
 
 bool statusDancaLiberado();
 bool statusLeituraCartaoRFIDLiberado();

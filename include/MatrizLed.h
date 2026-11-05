@@ -21,8 +21,11 @@ extern const byte Face_Barulho[]     PROGMEM;
 extern const byte Face_Enjoado[]     PROGMEM;
 extern const byte Face_Heart[]       PROGMEM;
 extern const byte Face_Erro[]        PROGMEM;
+extern const byte DFPlayer_Erro[]    PROGMEM;
+
 
 void configurarMatrizLed();
 void mostrar(const byte* Face);
+void mostrarFacePeloAudio(int idAudio);
 
 #endif

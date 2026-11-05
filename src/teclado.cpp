@@ -17,7 +17,11 @@ char TECLAS_MATRIZ[LINHAS][COLUNAS] = {
 Keypad tecladoPersonalizado = Keypad(makeKeymap(TECLAS_MATRIZ), PINOS_LINHAS, PINOS_COLUNAS, LINHAS, COLUNAS);
 
 void leituraTecladoNumerico(){
+    
+    if(otto.Teclado == TECLADO_DESABILITADO) return;
+
     char teclaPressionada = tecladoPersonalizado.getKey();
+
     if(teclaPressionada){
         switch(teclaPressionada){
             case '0': tocarAudio(97);  break;
